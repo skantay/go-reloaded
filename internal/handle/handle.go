@@ -4,35 +4,47 @@ import (
 	"errors"
 	"fmt"
 	"os"
+
+	tool "github.com/skantay/go-reloader/internal/handle/functions"
+)
+
+var (
+	ERR_GetFILES = errors.New("err: run() error | getFiles()")
+	ERR_GetTEXT  = errors.New("err: run() error | getText()")
 )
 
 func Run() error {
-	text := new(Text)
+	text := new(text)
 
 	if err := text.getFiles(); err != nil {
-		return fmt.Errorf("run error | getFiles: %w", err)
+		return fmt.Errorf("%s: %w", ERR_GetFILES, err)
 	}
-
 	if err := text.getText(); err != nil {
-		return fmt.Errorf("run error | getText: %w", err)
+		return fmt.Errorf("%s: %w", ERR_GetTEXT, err)
 	}
 
 	text.getFlags()
-	fmt.Println(text.Text)
+
+	for _, v := range text.flags {
+		if v[:2] == "up" {
+			text.text = tool.Up(text.text)
+		}
+	}
+
 	return nil
 }
 
 // Main object
-type Text struct {
+type text struct {
 	fileFrom string
 	fileTo   string
-	Text     string
+	text     string
 	flags    []string
 }
 
 // Object
-func (t *Text) getFlags() {
-	text := t.Text
+func (t *text) getFlags() {
+	text := t.text
 	brackets := []byte{}
 	var flagIndex int
 	for i := 0; i < len(text); i++ {
@@ -65,7 +77,7 @@ func flagsHelper(flagIndex, j int, text string) string {
 }
 
 // Object method - gets only 2 file paths
-func (t *Text) getFiles() error {
+func (t *text) getFiles() error {
 	args := os.Args[1:]
 
 	if len(args) != 2 {
@@ -79,13 +91,13 @@ func (t *Text) getFiles() error {
 }
 
 // Object method - gets text by filepath
-func (t *Text) getText() error {
+func (t *text) getText() error {
 	data, err := os.ReadFile(t.fileFrom)
 	if err != nil {
 		return errors.New("no such file")
 	}
 
-	t.Text = string(data)
+	t.text = string(data)
 
 	return nil
 }

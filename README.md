@@ -32,7 +32,7 @@ Replace `input.txt` with the name of your input file and `output.txt` with the d
         - `"1E(hex) files were added"` → `"1E(hex) files were added"`
         - `"1E (hex)files were added"` → `"1E (hex)files were added"`
   
-   - If perceding symbol is `\n` then flag won't change anything.
+   - If preceding symbol is `\n` then flag won't change anything.
 
 3. **Specific Flags with Second Argument:**
    - Specific flags, namely `(up)`, `(cap)`, and `(low)`, have a second argument.
@@ -42,9 +42,13 @@ Replace `input.txt` with the name of your input file and `output.txt` with the d
 4. **Flag Composition:**
    - Flags cannot contain another flag.
    - Flags cannot contain ANY unnecessary symbols such as `,` `!` `\n` etc.
+   - If there are flags after a flag then **ONLY** the first one will perfom, the rest are omitted as text.
 
 5. **Flag Wrapping:**
    - Flags can be wrapped in multiple parentheses.
+
+6. **Formatting white spaces**
+   - Flags remove the preceding white spaces. Following white spaces are not removed
 
 These rules serve as a guide for creating a program that performs text modifications based on specified flags. Ensure adherence to these rules for consistent and accurate text transformations.
 
