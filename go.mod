@@ -1,3 +1,3 @@
-module github.com/skantay/go-reloader
+module go-reloaded
 
 go 1.20

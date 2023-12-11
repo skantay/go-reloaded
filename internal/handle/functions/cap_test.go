@@ -4,20 +4,15 @@ package tool
 // 	"testing"
 // )
 
-// const (
-// 	success = "\u2713"
-// 	failed  = "\u2717"
-// )
-
-// func TestUp(t *testing.T) {
-// 	t.Log("Given the need to test Up() function behavoir")
+// func TestCap(t *testing.T) {
+// 	t.Log("Given the need to test Cap() function behavoir")
 // 	{
 // 		testID := 0
 // 		t.Logf("\tTest %d:\t", testID)
 // 		{
-// 			text := "Ready, set, go (up)!"
-// 			want := "Ready, set, GO!"
-// 			got := Up(text)
+// 			text := "Welcome to the Brooklyn bridge (cap)"
+// 			want := "Welcome to the Brooklyn Bridge"
+// 			got := Cap(text)
 
 // 			if want != got {
 // 				t.Fatalf("\t%s\tGot: \"%s\" but wanted: \"%s\"", failed, got, want)
@@ -28,9 +23,9 @@ package tool
 // 		testID++
 // 		t.Logf("\tTest %d:\t", testID)
 // 		{
-// 			text := "This is a (up) (up) test (up) case"
-// 			want := "This is A (up) TEST case"
-// 			got := Up(text)
+// 			text := "Welcome to the Brooklyn Bridge (cap)"
+// 			want := "Welcome to the Brooklyn Bridge"
+// 			got := Cap(text)
 
 // 			if want != got {
 // 				t.Fatalf("\t%s\tGot: \"%s\" but wanted: \"%s\"", failed, got, want)
@@ -41,9 +36,9 @@ package tool
 // 		testID++
 // 		t.Logf("\tTest %d:\t", testID)
 // 		{
-// 			text := "Coding is fun, (up) right?"
-// 			want := "Coding is fun, (up) right?"
-// 			got := Up(text)
+// 			text := "Welcome to the Brooklyn Bridge, (cap)"
+// 			want := "Welcome to the Brooklyn Bridge, (cap)"
+// 			got := Cap(text)
 
 // 			if want != got {
 // 				t.Fatalf("\t%s\tGot: \"%s\" but wanted: \"%s\"", failed, got, want)
@@ -54,35 +49,9 @@ package tool
 // 		testID++
 // 		t.Logf("\tTest %d:\t", testID)
 // 		{
-// 			text := "The quick brown fox jumps over the lazy dog (up)on the hill"
-// 			want := "The quick brown fox jumps over the lazy DOGon the hill"
-// 			got := Up(text)
-
-// 			if want != got {
-// 				t.Fatalf("\t%s\tGot: \"%s\" but wanted: \"%s\"", failed, got, want)
-// 			}
-// 			t.Logf("\t%s\tGot: \"%s\" matched with: \"%s\"", success, got, want)
-// 		}
-
-// 		testID++
-// 		t.Logf("\tTest %d:\t", testID)
-// 		{
-// 			text := "The quick brown fox jumps over the lazy dog(up)on the hill"
-// 			want := "The quick brown fox jumps over the lazy DOGon the hill"
-// 			got := Up(text)
-
-// 			if want != got {
-// 				t.Fatalf("\t%s\tGot: \"%s\" but wanted: \"%s\"", failed, got, want)
-// 			}
-// 			t.Logf("\t%s\tGot: \"%s\" matched with: \"%s\"", success, got, want)
-// 		}
-
-// 		testID++
-// 		t.Logf("\tTest %d:\t", testID)
-// 		{
-// 			text := "The quick brown fox jumps over the lazy dog(up) on the hill"
-// 			want := "The quick brown fox jumps over the lazy DOG on the hill"
-// 			got := Up(text)
+// 			text := "Welcome to the Brooklyn bridge(cap) BRIDG"
+// 			want := "Welcome to the Brooklyn Bridge BRIDG"
+// 			got := Cap(text)
 
 // 			if want != got {
 // 				t.Fatalf("\t%s\tGot: \"%s\" but wanted: \"%s\"", failed, got, want)
@@ -92,15 +61,15 @@ package tool
 // 	}
 // }
 
-// func TestUpCount(t *testing.T) {
-// 	t.Log("Given the need to test UpCount() function behavoir")
+// func TestCapCount(t *testing.T) {
+// 	t.Log("Given the need to test CapCount() function behavoir")
 // 	{
 // 		testID := 0
 // 		t.Logf("\tTest %d:\t", testID)
 // 		{
-// 			text := "This is so exciting (up, 2)"
-// 			want := "This is SO EXCITING"
-// 			got := UpCount(text)
+// 			text := "Ready, set, go (cap, 1)!"
+// 			want := "Ready, set, Go!"
+// 			got := CapCount(text)
 
 // 			if want != got {
 // 				t.Fatalf("\t%s\tGot: \"%s\" but wanted: \"%s\"", failed, got, want)
@@ -111,9 +80,9 @@ package tool
 // 		testID++
 // 		t.Logf("\tTest %d:\t", testID)
 // 		{
-// 			text := "This is so exciting (up, 20)"
-// 			want := "THIS IS SO EXCITING"
-// 			got := UpCount(text)
+// 			text := "This is so exciting (cap, 20)"
+// 			want := "This Is So Exciting"
+// 			got := CapCount(text)
 
 // 			if want != got {
 // 				t.Fatalf("\t%s\tGot: \"%s\" but wanted: \"%s\"", failed, got, want)
@@ -124,9 +93,9 @@ package tool
 // 		testID++
 // 		t.Logf("\tTest %d:\t", testID)
 // 		{
-// 			text := "This is so exciting (up, 0)"
+// 			text := "This is so exciting (cap, 0)"
 // 			want := "This is so exciting"
-// 			got := UpCount(text)
+// 			got := CapCount(text)
 
 // 			if want != got {
 // 				t.Fatalf("\t%s\tGot: \"%s\" but wanted: \"%s\"", failed, got, want)
@@ -137,9 +106,9 @@ package tool
 // 		testID++
 // 		t.Logf("\tTest %d:\t", testID)
 // 		{
-// 			text := "(up, 5)This is so exciting"
+// 			text := "(cap, 5)This is so exciting"
 // 			want := "This is so exciting"
-// 			got := UpCount(text)
+// 			got := CapCount(text)
 
 // 			if want != got {
 // 				t.Fatalf("\t%s\tGot: \"%s\" but wanted: \"%s\"", failed, got, want)

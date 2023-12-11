@@ -2,8 +2,7 @@ package main
 
 import (
 	"fmt"
-
-	"github.com/skantay/go-reloader/internal/handle"
+	"go-reloaded/internal/handle"
 )
 
 func main() {
