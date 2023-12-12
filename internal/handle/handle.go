@@ -23,8 +23,11 @@ func Run() error {
 	if err := text.getText(); err != nil {
 		return fmt.Errorf("%s: %w", errFileName, err)
 	}
-
-	text.processFlags()
+	text.other()
+	for i := 0; i < 10; i++ {
+		text.processFlags()
+	}
+	text.other()
 	text.putFile()
 
 	return nil

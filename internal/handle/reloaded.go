@@ -70,27 +70,24 @@ func (t *text) getFlags() {
 
 // Object method - process and apply flags
 func (t *text) processFlags() {
+	t.flags = make([]string, 0)
 	t.getFlags()
 	flags := t.flags
+
 	for indexFlag := 0; indexFlag < len(flags); indexFlag++ {
-		flag, _ := trim(flags[indexFlag])
-		fmt.Println(indexFlag, flag)
-		fmt.Println(t.text)
-		fmt.Println("-------------")
+		flag, numFlag := trim(flags[indexFlag])
 		switch flag {
-		case "up":
-			t.text = tool.Up(t.text)
-		case "low":
-			t.text = tool.Low(t.text)
-		case "cap":
-			t.text = tool.Cap(t.text)
-		case "bin":
-			t.text = tool.Bin(t.text)
 		case "hex":
 			t.text = tool.Hex(t.text)
+		case "bin":
+			t.text = tool.Bin(t.text)
+		case "up":
+			t.text = tool.Up(t.text, numFlag)
+		case "low":
+			t.text = tool.Low(t.text, numFlag)
+		case "cap":
+			t.text = tool.Cap(t.text, numFlag)
 		}
-		fmt.Println(t.text)
-		fmt.Println("-------------------------------------------------")
 	}
 }
 
@@ -122,8 +119,9 @@ func trim(flag string) (string, string) {
 // Objecet - method - apply other changes
 func (t *text) other() {
 	t.text = tool.Punct(t.text)
-	t.text = tool.Quotes(t.text)
 	t.text = tool.Articles(t.text)
+	t.text = tool.Articles(t.text)
+	t.text = tool.Quotes(t.text)
 }
 
 // Object method - puts the t.text to a file
@@ -132,9 +130,11 @@ func (t *text) putFile() {
 	defer result.Close()
 
 	buffer := []rune(t.text)
-
 	for _, line := range buffer {
-		result.WriteString(string(line))
+		_, err := result.WriteString(string(line))
+		if err != nil {
+			err.Error()
+		}
 	}
 }
 
