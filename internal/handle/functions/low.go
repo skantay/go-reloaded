@@ -1,3 +1,4 @@
+//nolint:dupl
 package tool
 
 import (
@@ -28,11 +29,13 @@ func Low(text, numFlag string) string {
 
 		if regex == lowSecond {
 			word := regexp.MustCompile(regex).ReplaceAllString(s, "$1")
+
 			return strings.ToLower(word)
 		}
 		word := regexp.MustCompile(regex).ReplaceAllString(s, "$0")
 		indexWord := strings.LastIndex(word, "(")
 		word = helperLow(word, indexWord, num)
+
 		return word
 	})
 
@@ -40,19 +43,12 @@ func Low(text, numFlag string) string {
 }
 
 func helperLow(text string, indexWord, num int) string {
-	trimmed := strings.TrimRight(string(text[:indexWord]), " ")
-	for {
-		if text[indexWord] != ' ' && text[indexWord] != '\n' {
-			break
-		}
-		trimmed = strings.TrimRight(string(trimmed), "\n")
-		trimmed = strings.TrimRight(string(trimmed), " ")
-	}
+	trimmed := strings.TrimRight(text[:indexWord], " \n")
 	result := []rune(trimmed)
-	var isWord bool
-	var foundLetter bool
-	for i := len(result) - 1; i >= 0; i-- {
 
+	var isWord, foundLetter bool
+
+	for i := len(result) - 1; i >= 0; i-- {
 		if num == 0 {
 			break
 		}
@@ -61,13 +57,15 @@ func helperLow(text string, indexWord, num int) string {
 			foundLetter = true
 			isWord = true
 			result[i] = unicode.ToLower(result[i])
+
 			continue
 		}
-		
+
 		if isWord && foundLetter {
 			isWord = false
 			num--
 		}
 	}
+
 	return string(result)
 }

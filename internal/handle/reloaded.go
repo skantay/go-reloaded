@@ -12,7 +12,7 @@ import (
 	tool "go-reloaded/internal/handle/functions"
 )
 
-// Main object
+// Main object.
 type text struct {
 	fileFrom string
 	fileTo   string
@@ -20,11 +20,11 @@ type text struct {
 	flags    []string
 }
 
-// Object method - gets only 2 file paths
+// Object method - gets only 2 file paths.
 func (t *text) getFiles() error {
 	args := os.Args[1:]
 
-	if len(args) != 2 {
+	if two := 2; len(args) != two {
 		return errors.New("enter 2 file paths")
 	}
 
@@ -34,7 +34,7 @@ func (t *text) getFiles() error {
 	return nil
 }
 
-// Object method - validate files
+// Object method - validate files.
 func (t *text) validateFiles() error {
 	first := filepath.Ext(t.fileFrom)
 	second := filepath.Ext(t.fileTo)
@@ -49,7 +49,7 @@ func (t *text) validateFiles() error {
 	return nil
 }
 
-// Object method - gets text by filepath
+// Object method - gets text by filepath.
 func (t *text) getText() error {
 	data, err := os.ReadFile(t.fileFrom)
 	if err != nil {
@@ -61,14 +61,19 @@ func (t *text) getText() error {
 	return nil
 }
 
-// Object method - gets flags in right order
+// Object method - gets flags in right order.
 func (t *text) getFlags() {
-	re := regexp.MustCompile(`\([\s\n]*([Hh][Ee][Xx]|[Uu][Pp]|[Ll][Oo][Ww]|[Bb][Ii][Nn]|[Cc][Aa][Pp])\s*\)|\([\s\n]*([Uu][Pp]|[Ll][Oo][Ww]|[Cc][Aa][Pp])[\s\n]*,[\s\n]*\d*[\s\n]*\)`)
+	sliceOfRegex := []string{
+		`\([\s\n]*([Hh][Ee][Xx]|[Uu][Pp]|[Ll][Oo][Ww]|[Bb][Ii][Nn]|[Cc][Aa][Pp])\s*\)`,
+		`\([\s\n]*([Uu][Pp]|[Ll][Oo][Ww]|[Cc][Aa][Pp])[\s\n]*,[\s\n]*\d*[\s\n]*\)`,
+	}
+	regex := strings.Join(sliceOfRegex, "|")
+	re := regexp.MustCompile(regex)
 
 	t.flags = re.FindAllString(t.text, len(t.text))
 }
 
-// Object method - process and apply flags
+// Object method - process and apply flags.
 func (t *text) processFlags() {
 	t.flags = make([]string, 0)
 	t.getFlags()
@@ -91,7 +96,7 @@ func (t *text) processFlags() {
 	}
 }
 
-// Helper of processFlags()
+// Helper of processFlags().
 func trim(flag string) (string, string) {
 	flag = strings.ReplaceAll(flag, " ", "")
 	flag = strings.ReplaceAll(flag, "(", "")
@@ -113,10 +118,11 @@ func trim(flag string) (string, string) {
 	}
 
 	flag = strings.ToLower(flag)
+
 	return flag, numFlag
 }
 
-// Objecet - method - apply other changes
+// Objecet - method - apply other changes.
 func (t *text) other() {
 	t.text = tool.Punct(t.text)
 	t.text = tool.Articles(t.text)
@@ -124,21 +130,22 @@ func (t *text) other() {
 	t.text = tool.Quotes(t.text)
 }
 
-// Object method - puts the t.text to a file
-func (t *text) putFile() {
+// Object method - puts the t.text to a file.
+func (t *text) putFile() error {
 	result, _ := os.Create(t.fileTo)
 	defer result.Close()
 
-	buffer := []rune(t.text)
-	for _, line := range buffer {
+	for _, line := range t.text {
 		_, err := result.WriteString(string(line))
 		if err != nil {
-			err.Error()
+			return err
 		}
 	}
+
+	return nil
 }
 
-// Helper of Error()
+// Helper of Error().
 func randInt(min, max int) int {
 	return min + rand.Intn(max-min)
 }

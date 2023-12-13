@@ -1,3 +1,4 @@
+//nolint:dupl
 package tool
 
 import (
@@ -9,8 +10,8 @@ import (
 
 func Up(text, numFlag string) string {
 	upFirst := `(\n|.)*\([\s\n]*([Uu][Pp])[\s\n]*,[\s\n]*\d*[\s\n]*\)`
-	upSecond  := `([a-zA-Z0-9]+)[\s]*\([\s\n]*([Uu][Pp])\s*\)|\([\s\n]*([Uu][Pp])\s*\)`
-	
+	upSecond := `([a-zA-Z0-9]+)[\s]*\([\s\n]*([Uu][Pp])\s*\)|\([\s\n]*([Uu][Pp])\s*\)`
+
 	var done bool
 
 	regex := upFirst
@@ -28,31 +29,27 @@ func Up(text, numFlag string) string {
 
 		if regex == upSecond {
 			word := regexp.MustCompile(regex).ReplaceAllString(s, "$1")
+
 			return strings.ToUpper(word)
 		}
 
 		word := regexp.MustCompile(regex).ReplaceAllString(s, "$0")
 		indexWord := strings.LastIndex(word, "(")
 		word = helperUp(word, indexWord, num)
+
 		return word
 	})
+
 	return text
 }
 
 func helperUp(text string, indexWord, num int) string {
-	trimmed := strings.TrimRight(string(text[:indexWord]), " ")
-	for {
-		if text[indexWord] != ' ' && text[indexWord] != '\n' {
-			break
-		}
-		trimmed = strings.TrimRight(string(trimmed), "\n")
-		trimmed = strings.TrimRight(string(trimmed), " ")
-	}
+	trimmed := strings.TrimRight(text[:indexWord], " \n")
 	result := []rune(trimmed)
-	var isWord bool
-	var foundLetter bool
-	for i := len(result) - 1; i >= 0; i-- {
 
+	var isWord, foundLetter bool
+
+	for i := len(result) - 1; i >= 0; i-- {
 		if num == 0 {
 			break
 		}
@@ -61,6 +58,7 @@ func helperUp(text string, indexWord, num int) string {
 			foundLetter = true
 			isWord = true
 			result[i] = unicode.ToUpper(result[i])
+
 			continue
 		}
 
@@ -69,5 +67,6 @@ func helperUp(text string, indexWord, num int) string {
 			num--
 		}
 	}
+
 	return string(result)
 }
